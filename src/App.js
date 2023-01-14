@@ -3,7 +3,14 @@ import Header from "./MyComponents/Header";
 import { Todos } from "./MyComponents/Todos";
 import { Footer } from "./MyComponents/Footer";
 import { AddTodo } from "./MyComponents/AddTodo";
+import { About } from "./MyComponents/About";
 import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  // Switch,
+  Routes,
+  Route
+} from "react-router-dom";
 
 
 function App() {
@@ -48,7 +55,7 @@ function App() {
 
   }
 
-  const [todos, setTodos] = useState([initTodo]);
+  const [todos, setTodos] = useState(initTodo);
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }
@@ -57,10 +64,28 @@ function App() {
 
   return (
     <>
-      <Header title="My Todos List" searchBar={false} />
-      <AddTodo addTodo={addTodo} />
-      <Todos todos={todos} onDelete={onDelete} />
-      <Footer />
+      <Router>
+        <Header title="My Todos List" searchBar={false} />
+        {/* <Switch> */}
+        <Routes>
+          <Route exact path="/" render={() => {
+            return (
+              <>
+                <AddTodo addTodo={addTodo} />
+                <Todos todos={todos} onDelete={onDelete} />
+              </>
+            )
+          }}>
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          {/* </Switch> */}
+        </Routes>
+
+
+        <Footer />
+      </Router>
     </>
   );
 }
